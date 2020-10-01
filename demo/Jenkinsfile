@@ -39,9 +39,10 @@ pipeline {
           sh "git config --global user.email 'luky.ramdhanie@gmail.com'"
 
           dir("nick-fury/overlays/stg/lotus") {
+            sh "sudo chown jenkins: -R \$PWD/"  
             sh "helm template -f ${PWD}/config.yaml  ${PWD}/../../../charts/courier > resources.yaml"
             sh "kustomize edit set image 192.168.0.105:5000/argocd-demo:${env.GIT_COMMIT}"
-            sh "git commit -am 'Publish new version' && git push origin local-registry || echo 'no changes'"
+            sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
       }

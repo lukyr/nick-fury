@@ -11,8 +11,10 @@ pipeline {
       steps {
         container('docker') {
           // Build new image
-          sh "until docker ps; do sleep 3; done && docker build -t 192.168.0.105:5000/lotus:${env.GIT_COMMIT} ."
-          sh "docker push 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+          dir("demo") {
+            sh "until docker ps; do sleep 3; done && docker build -t 192.168.0.105:5000/lotus:${env.GIT_COMMIT} ."
+            sh "docker push 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+          }
         }
       }
     }
@@ -33,7 +35,7 @@ pipeline {
       }
       steps {
         container('tools') {
-          sh "git clone --single-branch --branch local-registry https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/lukyr/nick-fury.git"
+          sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/lukyr/nick-fury.git"
           sh "git config --global user.email 'luky.ramdhanie@gmail.com'"
 
           dir("nick-fury") {

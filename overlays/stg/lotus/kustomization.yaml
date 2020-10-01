@@ -11,4 +11,4 @@ configMapGenerator:
   
 images:
 - name: 192.168.0.105:5000/argocd-demo
-  newTag: 8944f2e32f740554adffb73c649c20aec8c93c34
+  newTag: ac27aaf1db1e5517c73ae2e2c32a8f373f800b39

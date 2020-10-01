@@ -1,0 +1,47 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'jenkins-slaves'
+      defaultContainer 'jnlp'
+    }
+  }
+  stages {
+
+    stage('Build Image') {
+      steps {
+        container('docker') {
+          // Build new image
+          sh "until docker ps; do sleep 3; done && docker build -t 192.168.0.105:5000/lotus:${env.GIT_COMMIT} ."
+          sh "docker push 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+        }
+      }
+    }
+
+    stage('Push Image') {
+      steps {
+        container('docker') {
+          // Push image
+          sh "docker push 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+          sh "docker rmi 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+        }
+      }
+    }
+
+    stage('Deploy E2E') {
+      environment {
+        GIT_CREDS = credentials('git')
+      }
+      steps {
+        container('tools') {
+          sh "git clone --single-branch --branch local-registry https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/lukyr/nick-fury.git"
+          sh "git config --global user.email 'luky.ramdhanie@gmail.com'"
+
+          dir("nick-fury") {
+            sh "cd ./overlays/stg/lotus && kustomize edit set image 192.168.0.105:5000/argocd-demo:${env.GIT_COMMIT}"
+            sh "git commit -am 'Publish new version' && git push origin local-registry || echo 'no changes'"
+          }
+        }
+      }
+    }
+  }
+}

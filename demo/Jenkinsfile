@@ -37,7 +37,9 @@ pipeline {
           sh "git config --global user.email 'luky.ramdhanie@gmail.com'"
 
           dir("nick-fury") {
-            sh "cd ./overlays/stg/lotus && kustomize edit set image 192.168.0.105:5000/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./overlays/stg/lotus"
+            sh "helm template -f ${PWD}/config.yaml  ${PWD}/../../../charts/courier > resources.yaml"
+            sh "kustomize edit set image 192.168.0.105:5000/argocd-demo:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push origin local-registry || echo 'no changes'"
           }
         }

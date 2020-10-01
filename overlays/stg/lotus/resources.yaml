@@ -1,0 +1,61 @@
+---
+# Source: courier/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: lotus
+  labels:
+    helm.sh/chart: courier-0.1.0
+    app.kubernetes.io/name: lotus
+    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: lotus
+---
+# Source: courier/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lotus
+  labels:
+    helm.sh/chart: courier-0.1.0
+    app.kubernetes.io/name: lotus
+    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: lotus
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: lotus
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: lotus
+        image: "nginx:latest"
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: lotus-env
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http

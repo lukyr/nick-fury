@@ -10,5 +10,5 @@ configMapGenerator:
   name: lotus-env
   
 images:
-- name: 192.168.0.105:5000/argocd-demo
+- name: 192.168.0.105:5000/lotus
   newTag: d0fa397727c5a7f72b096b456646d8884a2e85d1

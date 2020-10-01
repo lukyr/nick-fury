@@ -42,7 +42,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: lotus
-        image: "192.168.0.105:5000/argocd-demo:latest"
+        image: "192.168.0.105:5000/lotus:latest"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

@@ -11,4 +11,4 @@ configMapGenerator:
   
 images:
 - name: 192.168.0.105:5000/lotus
-  newTag: c3896da592bad80035bc17a20c35e6b8f5160254
+  newTag: 3267f51a272cb3b65ece21da26a11eb77720d716

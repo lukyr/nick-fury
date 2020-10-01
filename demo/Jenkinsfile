@@ -38,11 +38,11 @@ pipeline {
           sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/lukyr/nick-fury.git"
           sh "git config --global user.email 'luky.ramdhanie@gmail.com'"
 
-          dir("overlays/stg/lotus") {
-            sh "helm template -f config.yaml  ../../../charts/courier > resources.yaml"
-            sh "kustomize edit set image 192.168.0.105:5000/argocd-demo:${env.GIT_COMMIT}"
+          dir("nick-fury") {
+            sh "cd ./overlays/stg/lotus && helm template -f config.yaml  ../../../charts/courier > resources.yaml"
+            sh "cd ./overlays/stg/lotus && kustomize edit set image 192.168.0.105:5000/argocd-demo:${env.GIT_COMMIT}"
             sh "git add ."
-            sh "git commit -am 'Publish new version' && git push origin master|| echo 'no changes'"
+            sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
       }

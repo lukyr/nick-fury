@@ -11,4 +11,4 @@ configMapGenerator:
   
 images:
 - name: 192.168.0.105:5000/mbizmarket/lotus
-  newTag: uat-1d03f919e3b23879b6f1363f5055378eb3fb7498
+  newTag: uat-c6a697a567dabdb7313498ecff9860220383bf0f

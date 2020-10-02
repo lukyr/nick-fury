@@ -11,4 +11,4 @@ configMapGenerator:
   
 images:
 - name: 192.168.0.105:5000/mbizmarket/shiva
-  newTag: stg-4f5a6d1fbc3dd8217b6aa009bbc7a38900b8fe64
+  newTag: uat-79d8e4a629233e3962732cd76657556d20abc2a6

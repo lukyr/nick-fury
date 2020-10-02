@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- resources.yaml
+
+configMapGenerator:
+- envs:
+  - env.properties
+  name: shiva-env
+  
+images:
+- name: 192.168.0.105:5000/mbizmarket/shiva
+  newTag: uat-79d8e4a629233e3962732cd76657556d20abc2a6

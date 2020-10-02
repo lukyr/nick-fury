@@ -10,10 +10,11 @@ pipeline {
     stage('Build Image') {
       steps {
         container('docker') {
-          // Build new image
+          //BUILD DOCKER
           dir("demo") {
-            sh "until docker ps; do sleep 3; done && docker build -t 192.168.0.105:5000/lotus:${env.GIT_COMMIT} ."
-            sh "docker push 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+            sh "until docker ps; do sleep 3; done"
+            sh "docker build -t ${REGISTRY}/${PROJECT}/${$SERVICE}:${ENV}-${GIT_COMMIT} ."
+            sh "docker tag ${REGISTRY}/${PROJECT}/${SERVICE}:${ENV}-${GIT_COMMIT} ${REGISTRY}/${PROJECT}/${SERVICE}:${TAG}"
           }
         }
       }
@@ -22,9 +23,10 @@ pipeline {
     stage('Push Image') {
       steps {
         container('docker') {
-          // Push image
-          sh "docker push 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
-          sh "docker rmi 192.168.0.105:5000/lotus:${env.GIT_COMMIT}"
+          //PUSH DOCKER TO REGISTRY
+          sh "docker push ${REGISTRY}/${PROJECT}/${SERVICE}:${ENV}-${GIT_COMMIT}"
+          sh "docker push ${REGISTRY}/${PROJECT}/${SERVICE}:${TAG}"
+          sh "docker rmi ${REGISTRY}/${PROJECT}/${SERVICE}:${ENV}-${GIT_COMMIT} && docker rmi ${REGISTRY}/${PROJECT}/${SERVICE}:${TAG}"
         }
       }
     }

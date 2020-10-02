@@ -13,7 +13,7 @@ pipeline {
           //BUILD DOCKER
           dir("demo") {
             sh "until docker ps; do sleep 3; done"
-            sh "docker build -t ${REGISTRY}/${PROJECT}/${$SERVICE}:${ENV}-${GIT_COMMIT} ."
+            sh "docker build -t ${REGISTRY}/${PROJECT}/${SERVICE}:${ENV}-${GIT_COMMIT} ."
             sh "docker tag ${REGISTRY}/${PROJECT}/${SERVICE}:${ENV}-${GIT_COMMIT} ${REGISTRY}/${PROJECT}/${SERVICE}:${TAG}"
           }
         }

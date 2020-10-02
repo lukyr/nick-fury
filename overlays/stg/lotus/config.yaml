@@ -6,7 +6,7 @@ apiVersion: extensions/v1beta1
 metadataName: "lotus"
 replicaCount: 1
 image:
-  repository: 192.168.0.105:5000/lotus
+  repository: 192.168.0.105:5000/mbizmarket/lotus
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"

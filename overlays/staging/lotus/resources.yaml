@@ -42,7 +42,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: lotus
-        image: "192.168.0.105:5000/mbizmarket/lotus:staging-5ea62338a8504914956acf554e40e7fef0a1b1d1:latest"
+        image: "192.168.0.105:5000/mbizmarket/lotus:staging-5ea62338a8504914956acf554e40e7fef0a1b1d1"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

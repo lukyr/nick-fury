@@ -19,6 +19,9 @@ containers:
   command: []
   envFrom:
   - configMapRef: {
+      name: global-env
+    }
+  - configMapRef: {
       name: lotus-env
     }
   ports:
